@@ -1,4 +1,4 @@
-// Copyright (c) 2026 Jane Doe
+// Copyright (c) 2026 Serhii Yeriemieiev
 // Licensed under the MIT License. See LICENSE file in the project root.
 package libuflog
 
@@ -15,6 +15,7 @@ type Message struct {
 	time             time.Time
 	messageType      string
 	typeStyle        []formatting.Ansi
+	caller           string
 }
 
 var ansiEscape = regexp.MustCompile(`\033\[[0-9;]*m`)
@@ -24,6 +25,14 @@ func NewMessage(msg string) Message {
 		rawMessage:       ansiEscape.ReplaceAllString(msg, ""),
 		formattedMessage: msg,
 	}
+}
+
+func (m *Message) SetCaller(c string) {
+	m.caller = c
+}
+
+func (m *Message) GetCaller() string {
+	return m.caller
 }
 
 func (m *Message) SetTime(t time.Time) {
