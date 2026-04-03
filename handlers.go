@@ -71,7 +71,7 @@ func ColorfulLogging(l *Logger, msg Message) {
 	}
 	time := l.Formatting.FormatTime(time.Now().Format("15:04:05"), formatting.Gray)
 	if caller == "" {
-		fmt.Printf("%s %s %s\n", time, t, message)
+		fmt.Printf("%s %s%s\n", time, t, message)
 	}
 	fmt.Printf("%s %s %s %s\n", time, t, caller, message)
 }
