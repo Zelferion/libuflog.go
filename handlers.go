@@ -65,8 +65,14 @@ func ColorfulLogging(l *Logger, msg Message) {
 	t := formatting.EqualPadding(l.Formatting.FormatType(msg.GetMessageType(), msg.GetTypeStyle()...))
 	msg.SetFormattedMessage(l.Formatting.FormatMessage(msg.GetFormattedMessage()))
 	message := msg.GetFormattedMessage()
-	caller := l.Formatting.FormatCaller(msg.GetCaller(), formatting.Italic, formatting.Cyan)
+	var caller string
+	if l.Caller {
+		caller = l.Formatting.FormatCaller(msg.GetCaller(), formatting.Italic, formatting.Cyan)
+	}
 	time := l.Formatting.FormatTime(time.Now().Format("15:04:05"), formatting.Gray)
+	if caller == "" {
+		fmt.Printf("%s %s %s\n", time, t, message)
+	}
 	fmt.Printf("%s %s %s %s\n", time, t, caller, message)
 }
 

@@ -27,12 +27,13 @@ type Logger struct {
 	Actor      []Actor
 	Formatting formatting.Formatter
 	Level      Level
+	Caller     bool
 }
 
 func NewDefaultLogger() Logger {
 	formatter := formatting.NewFormatter()
 	actors := []Actor{ColorfulLogging, FileLogging}
-	return Logger{Formatting: formatter, Actor: actors, Level: Debug}
+	return Logger{Formatting: formatter, Actor: actors, Level: Debug, Caller: true}
 }
 
 func callerName() string {
@@ -76,7 +77,9 @@ func (l *Logger) dispatch(typ string, style formatting.Ansi, s string) {
 	message := NewMessage(s)
 	message.SetType(typ)
 	message.SetTypeStyle(style)
-	message.SetCaller(callerName())
+	if l.Caller {
+		message.SetCaller(callerName())
+	}
 	for _, actor := range l.Actor {
 		actor(l, message)
 	}
