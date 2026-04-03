@@ -70,10 +70,11 @@ func ColorfulLogging(l *Logger, msg Message) {
 		caller = l.Formatting.FormatCaller(msg.GetCaller(), formatting.Italic, formatting.Cyan)
 	}
 	time := l.Formatting.FormatTime(time.Now().Format("15:04:05"), formatting.Gray)
-	if caller == "" {
+	if !l.Caller {
 		fmt.Printf("%s %s%s\n", time, t, message)
+	} else {
+		fmt.Printf("%s %s %s %s\n", time, t, caller, message)
 	}
-	fmt.Printf("%s %s %s %s\n", time, t, caller, message)
 }
 
 func JSONLogging(l *Logger, msg Message) {
